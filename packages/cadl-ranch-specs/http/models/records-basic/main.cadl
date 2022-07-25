@@ -1,0 +1,68 @@
+import "@cadl-lang/rest";
+import "@cadl-lang/openapi";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-ranch-expect";
+
+using Cadl.Http;
+using Azure.Core.Operations;
+
+@serviceTitle("RecordPropertiesBasicClient")
+@serviceVersion("1.0.0")
+@server("http://localhost:3000", "TestServer endpoint")
+@doc("Illustrates input, output, and round-trip models with required record type properties.")
+
+namespace Cadl.TestServer.RecordPropertiesBasic;
+
+@doc("Input model with record properties")
+model InputModel {
+
+  @doc("Required record from string to string.")
+  requiredStringStringRecord: Record<string>;
+
+  @doc("Required record from string to int.")
+  requiredStringIntRecord: Record<int32>;
+}
+
+@doc("Output model with record properties")
+model OutputModel {
+
+  @doc("Required record from string to string.")
+  requiredStringStringRecord: Record<string, string>;
+
+  @doc("Required record from string to int.")
+  requiredStringIntRecord: Record<string, int32>;
+}
+
+@doc("Round-trip model with record properties")
+model RoundTripModel {
+
+  @doc("Required record from string to string.")
+  requiredStringStringRecord: Record<string, string>;
+
+  @doc("Required record from string to int.")
+  requiredStringIntRecord: Record<string, int32>;
+
+  @doc("Required record from int to string.")
+  requiredIntStringRecord: Record<int32, string>;
+
+  @doc("Required record from int to int.")
+  requiredIntIntRecord: Record<int32, int32>;
+}
+
+@scenario
+@scenarioDoc("Generate and send input model with required record properties.")
+@route("/models")
+@post
+op sendRecordModel(@body input: InputModel): Response<200> | ErrorResponse;
+
+@scenario
+@scenarioDoc("Generate and receive output model with required record properties.")
+@route("/models")
+@get
+op getRecordModel(): OkResponse<OutputModel> | ErrorResponse;
+
+@scenario
+@scenarioDoc("Generate, send, and receive round-trip model with required record properties.")
+@route("/models")
+@put
+op setRecordModel(@body input: RoundTripModel): OkResponse<RoundTripModel> | ErrorResponse;
