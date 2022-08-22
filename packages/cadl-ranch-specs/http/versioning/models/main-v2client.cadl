@@ -40,4 +40,6 @@ model EvolvingModel {
 @scenarioDoc("Operation illustrating the evolution of a round-trip model.")
 @route("/ops/evolve")
 @get
-op setEvolvingModel(...ApiVersionParameter) : OkResponse<EvolvingModel>;
+op setEvolvingModel(
+  ...ApiVersionParameter, 
+  value: EvolvingModel) : OkResponse<EvolvingModel>;
