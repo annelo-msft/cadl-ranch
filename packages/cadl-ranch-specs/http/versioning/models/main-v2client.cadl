@@ -24,7 +24,7 @@ model EvolvingModel {
   @doc("Value type property available in 2022-01-01")
   requiredInt: int32;
 
-  @doc("Reference type property available in 2022-02-02")
+  @doc("Reference type property available in 2022-01-01")
   requiredString: string;
 
   @doc("Value type property added in 2022-02-02")
