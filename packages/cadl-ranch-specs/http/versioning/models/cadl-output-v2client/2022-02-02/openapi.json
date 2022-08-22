@@ -1,0 +1,95 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "MultiVersionClient",
+    "version": "2022-02-02",
+    "description": "Illustrates a v2 client for the purposes of testing multi-version model scenarios.",
+    "x-cadl-generated": [
+      {
+        "emitter": "@azure-tools/cadl-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{Endpoint}",
+    "useSchemePrefix": false,
+    "parameters": [
+      {
+        "name": "Endpoint",
+        "in": "path",
+        "required": true,
+        "type": "string"
+      }
+    ]
+  },
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "tags": [],
+  "paths": {
+    "/ops/evolve": {
+      "get": {
+        "operationId": "MultiVersionClient_SetEvolvingModel",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Azure.Core.ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/EvolvingModel"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "EvolvingModel": {
+      "type": "object",
+      "properties": {
+        "requiredInt": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Value type property available in 2022-01-01"
+        },
+        "requiredString": {
+          "type": "string",
+          "description": "Reference type property available in 2022-02-02"
+        },
+        "optionalInt": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Value type property added in 2022-02-02"
+        },
+        "optionalString": {
+          "type": "string",
+          "description": "Reference type property added in 2022-02-02"
+        }
+      },
+      "required": [
+        "requiredInt",
+        "requiredString"
+      ]
+    }
+  },
+  "parameters": {
+    "Azure.Core.ApiVersionParameter": {
+      "name": "api-version",
+      "in": "query",
+      "required": true,
+      "description": "The API version to use for this operation.",
+      "minLength": 1,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    }
+  }
+}

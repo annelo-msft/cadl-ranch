@@ -1,0 +1,43 @@
+import "@cadl-lang/rest";
+import "@cadl-lang/versioning";
+import "@azure-tools/cadl-azure-core";
+import "@azure-tools/cadl-ranch-expect";
+
+using Cadl.Http;
+using Cadl.Versioning;
+using Azure.Core;
+
+@serviceTitle("MultiVersionClient")
+@serviceVersion(Versions.v2022_02_02)
+@server("{Endpoint}", "Multi-version Service", {Endpoint: string})
+@doc("Illustrates a v2 client for the purposes of testing multi-version model scenarios.")
+@versioned(Versions)
+@route("/")
+namespace Cadl.TestServer.MultiVersionClient;
+
+enum Versions {
+  v2022_01_01:  "2022-01-01",
+  v2022_02_02:  "2022-02-02",
+}
+
+model EvolvingModel {
+  @doc("Value type property available in 2022-01-01")
+  requiredInt: int32;
+
+  @doc("Reference type property available in 2022-02-02")
+  requiredString: string;
+
+  @doc("Value type property added in 2022-02-02")
+  @added(Versions.v2022_02_02)
+  optionalInt?: int32;
+
+  @doc("Reference type property added in 2022-02-02")
+  @added(Versions.v2022_02_02)
+  optionalString?: string;
+}
+
+@scenario
+@scenarioDoc("Operation illustrating the evolution of a round-trip model.")
+@route("/ops/evolve")
+@get
+op setEvolvingModel(...ApiVersionParameter) : OkResponse<EvolvingModel>;
